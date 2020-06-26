@@ -2,7 +2,6 @@ namespace WebApi.UseCases.V1.CustomError
 {
     using System.Diagnostics;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
@@ -17,16 +16,17 @@ namespace WebApi.UseCases.V1.CustomError
     [ApiController]
     public sealed class CustomErrorController : Controller
     {
+        /// <summary>
+        ///     Get an custom error.
+        /// </summary>
+        /// <returns>The custom error model.</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult CustomError()
         {
-            var model = new CustomErrorResponse
-            {
-                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
-            };
+            var model = new CustomErrorResponse {RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier};
 
-            return View("~/UseCases/V1/CustomError/CustomError.cshtml", model);
+            return this.View("~/UseCases/V1/CustomError/CustomError.cshtml", model);
         }
     }
 }

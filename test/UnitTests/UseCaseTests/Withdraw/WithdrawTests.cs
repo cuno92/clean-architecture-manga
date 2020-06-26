@@ -1,6 +1,5 @@
 namespace UnitTests.UseCaseTests.Withdraw
 {
-    using System.Linq;
     using System.Threading.Tasks;
     using Application.Boundaries.Withdraw;
     using Application.UseCases;
@@ -21,7 +20,7 @@ namespace UnitTests.UseCaseTests.Withdraw
             decimal amount,
             decimal expectedBalance)
         {
-            WithdrawPresenter presenter = new WithdrawPresenter();
+            WithdrawPresenterFake presenter = new WithdrawPresenterFake();
             WithdrawUseCase sut = new WithdrawUseCase(
                 this._fixture.AccountService,
                 presenter,
@@ -29,10 +28,10 @@ namespace UnitTests.UseCaseTests.Withdraw
                 this._fixture.UnitOfWork);
 
             await sut.Execute(new WithdrawInput(
-                MangaContextFake.DefaultAccountId,
-                new PositiveMoney(amount)));
+                MangaContextFake.DefaultAccountId.ToGuid(),
+                amount));
 
-            WithdrawOutput actual = presenter.Withdrawals.Last();
+            WithdrawOutput actual = presenter.StandardOutput!;
             Assert.Equal(expectedBalance, actual.UpdatedBalance.ToDecimal());
         }
     }

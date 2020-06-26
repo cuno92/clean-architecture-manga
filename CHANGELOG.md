@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.8] - 2020-06-23
+
+### Changed
+
+- Value Objects removed from Input constructors.
+
+## [3.0.7] - 2020-06-23
+
+### Changed
+
+- Test and Presenters clean up.
+
+## [3.0.6] - 2020-06-19
+
+### Changed
+
+- Removed 1591, SA1600, SA1633, SA1602, SA1309, SA1101, SA1124, SA1625 and CA1822 Warnings.
+
+## [3.0.5] - 2020-06-18
+
+### Changed
+
+- Nuget packages upgrade.
+- Changed naming to be consistent.
+
+## [3.0.4] - 2020-06-15
+
+### Changed
+
+- Nuget packages upgrades.
+- `TransferTransferUseCase` renamed to `TransferUseCase`
+
 ## [3.0.3] - 2020-05-24
 
 ### Fixed

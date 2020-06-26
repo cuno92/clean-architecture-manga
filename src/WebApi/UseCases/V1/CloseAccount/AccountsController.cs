@@ -3,7 +3,6 @@ namespace WebApi.UseCases.V1.CloseAccount
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
     using Application.Boundaries.CloseAccount;
-    using Domain.Accounts.ValueObjects;
     using FluentMediator;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
@@ -28,7 +27,7 @@ namespace WebApi.UseCases.V1.CloseAccount
         /// <response code="400">Bad request.</response>
         /// <response code="500">Error.</response>
         /// <param name="mediator"></param>
-        /// <param name="getAccountsPresenter"></param>
+        /// <param name="presenter"></param>
         /// <param name="request">The request to Close an Account.</param>
         /// <returns>The account id.</returns>
         [Authorize]
@@ -37,14 +36,13 @@ namespace WebApi.UseCases.V1.CloseAccount
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Close(
-            [FromServices] IMediator mediator,
-            [FromServices] CloseAccountGetAccountsPresenter getAccountsPresenter,
-            [FromRoute] [Required] CloseAccountRequest request)
+            [FromServices] IMediator mediator, [FromServices] CloseAccountPresenter presenter,
+            [FromRoute][Required] CloseAccountRequest request)
         {
-            var input = new CloseAccountInput(new AccountId(request.AccountId));
+            var input = new CloseAccountInput(request.AccountId);
             await mediator.PublishAsync(input)
                 .ConfigureAwait(false);
-            return getAccountsPresenter.ViewModel;
+            return presenter.ViewModel;
         }
     }
 }

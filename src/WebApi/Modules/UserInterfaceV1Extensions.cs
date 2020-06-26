@@ -18,16 +18,22 @@ namespace WebApi.Modules
     using UseCases.V1.Transfer;
     using UseCases.V1.Withdraw;
 
+    /// <summary>
+    ///     The User Interface V1 Extensions.
+    /// </summary>
     public static class UserInterfaceV1Extensions
     {
+        /// <summary>
+        ///     Inject All V1 Presenters dependencies;
+        /// </summary>
         public static IServiceCollection AddPresentersV1(this IServiceCollection services)
         {
-            services.AddScoped<CloseAccountGetAccountsPresenter, CloseAccountGetAccountsPresenter>();
-            services.AddScoped<ICloseAccountOutputPort>(x => x.GetRequiredService<CloseAccountGetAccountsPresenter>());
+            services.AddScoped<CloseAccountPresenter, CloseAccountPresenter>();
+            services.AddScoped<ICloseAccountOutputPort>(x => x.GetRequiredService<CloseAccountPresenter>());
 
-            services.AddScoped<DepositGetAccountsPresenter, DepositGetAccountsPresenter>();
+            services.AddScoped<DepositPresenter, DepositPresenter>();
             services.AddScoped<IDepositOutputPort>(
-                x => x.GetRequiredService<DepositGetAccountsPresenter>());
+                x => x.GetRequiredService<DepositPresenter>());
 
             services.AddScoped<GetAccountPresenter, GetAccountPresenter>();
             services.AddScoped<IGetAccountOutputPort>(x =>

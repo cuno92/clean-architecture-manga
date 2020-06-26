@@ -1,6 +1,5 @@
 namespace UnitTests.UseCaseTests.CloseAccount
 {
-    using System.Linq;
     using System.Threading.Tasks;
     using Application.Boundaries.CloseAccount;
     using Application.Boundaries.GetAccount;
@@ -40,9 +39,9 @@ namespace UnitTests.UseCaseTests.CloseAccount
         [Fact]
         public async Task NewAccount_Should_Allows_Closing2()
         {
-            GetAccountPresenter getAccountPresenter = new GetAccountPresenter();
-            CloseAccountGetAccountsPresenter closeAccountPresenter = new CloseAccountGetAccountsPresenter();
-            WithdrawPresenter withdrawPresenter = new WithdrawPresenter();
+            GetAccountPresenterFake getAccountPresenter = new GetAccountPresenterFake();
+            CloseAccountPresenterFake closeAccountPresenter = new CloseAccountPresenterFake();
+            WithdrawPresenterFake withdrawPresenter = new WithdrawPresenterFake();
 
             GetAccountUseCase getAccountUseCase = new GetAccountUseCase(
                 getAccountPresenter,
@@ -59,18 +58,18 @@ namespace UnitTests.UseCaseTests.CloseAccount
                 this._fixture.AccountRepositoryFake);
 
             await getAccountUseCase.Execute(new GetAccountInput(
-                MangaContextFake.DefaultAccountId));
-            GetAccountOutput getAccountDetailOutput = getAccountPresenter.GetAccountDetails.First();
+                MangaContextFake.DefaultAccountId.ToGuid()));
+            GetAccountOutput getAccountDetailOutput = getAccountPresenter.StandardOutput!;
 
             await withdrawUseCase.Execute(new WithdrawInput(
-                MangaContextFake.DefaultAccountId,
-                new PositiveMoney(getAccountDetailOutput.Account.GetCurrentBalance().ToDecimal())));
+                MangaContextFake.DefaultAccountId.ToGuid(),
+                getAccountDetailOutput.Account.GetCurrentBalance().ToDecimal()));
 
             CloseAccountInput input = new CloseAccountInput(
-                MangaContextFake.DefaultAccountId);
+                MangaContextFake.DefaultAccountId.ToGuid());
             await sut.Execute(input);
 
-            Assert.Equal(input.AccountId, closeAccountPresenter.ClosedAccounts.First().Account.Id);
+            Assert.Equal(input.AccountId, closeAccountPresenter.StandardOutput!.Account.Id);
         }
 
         [Fact]
