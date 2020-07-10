@@ -7,6 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.12] - 2020-07-04
+
+### Added
+
+- API Conventions.
+
+### Changed
+
+- Test cases as it starts with a preset Customer and Account.
+
+### Fixed
+
+- Close account calls *Account Cannot be Closed* in case of existing funds.
+
+## [3.0.11] - 2020-07-02
+
+### Changed
+
+- Refactoring.
+- Startup instructions on Readme.md.
+
+## [3.0.10] - 2020-07-01
+
+### Added
+
+- Exchange Service.
+
+## [3.0.9] - 2020-06-25
+
+### Changed
+
+- Variable names changed to conform with use cases.
+
 ## [3.0.8] - 2020-06-23
 
 ### Changed

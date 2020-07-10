@@ -8,6 +8,7 @@ namespace Application.UseCases
     using Boundaries.Deposit;
     using Domain.Accounts;
     using Domain.Accounts.Credits;
+    using Domain.Accounts.ValueObjects;
     using Services;
 
     /// <summary>
@@ -22,25 +23,29 @@ namespace Application.UseCases
     {
         private readonly IAccountRepository _accountRepository;
         private readonly AccountService _accountService;
-        private readonly IDepositOutputPort _depositGetAccountsOutputPort;
+        private readonly ICurrencyExchange _currencyExchange;
+        private readonly IDepositOutputPort _depositOutputPort;
         private readonly IUnitOfWork _unitOfWork;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="DepositUseCase" /> class.
         /// </summary>
         /// <param name="accountService">Account Service.</param>
-        /// <param name="depositGetAccountsOutputPort">Output Port.</param>
+        /// <param name="depositOutputPort">Output Port.</param>
         /// <param name="accountRepository">Account Repository.</param>
+        /// <param name="currencyExchange">Currency Exchange Service.</param>
         /// <param name="unitOfWork">Unit Of Work.</param>
         public DepositUseCase(
             AccountService accountService,
-            IDepositOutputPort depositGetAccountsOutputPort,
+            IDepositOutputPort depositOutputPort,
             IAccountRepository accountRepository,
+            ICurrencyExchange currencyExchange,
             IUnitOfWork unitOfWork)
         {
             this._accountService = accountService;
-            this._depositGetAccountsOutputPort = depositGetAccountsOutputPort;
+            this._depositOutputPort = depositOutputPort;
             this._accountRepository = accountRepository;
+            this._currencyExchange = currencyExchange;
             this._unitOfWork = unitOfWork;
         }
 
@@ -53,7 +58,7 @@ namespace Application.UseCases
         {
             if (input is null)
             {
-                this._depositGetAccountsOutputPort
+                this._depositOutputPort
                     .WriteError(Messages.InputIsNull);
                 return;
             }
@@ -64,13 +69,17 @@ namespace Application.UseCases
 
             if (account is null)
             {
-                this._depositGetAccountsOutputPort
+                this._depositOutputPort
                     .NotFound(Messages.AccountDoesNotExist);
                 return;
             }
 
+            PositiveMoney amountConverted = await this._currencyExchange
+                .ConvertToUSD(input.Amount)
+                .ConfigureAwait(false);
+
             ICredit credit = await this._accountService
-                .Deposit(account, input.Amount)
+                .Deposit(account, amountConverted)
                 .ConfigureAwait(false);
 
             await this._unitOfWork
@@ -86,7 +95,7 @@ namespace Application.UseCases
                 credit,
                 account.GetCurrentBalance());
 
-            this._depositGetAccountsOutputPort.Standard(output);
+            this._depositOutputPort.Standard(output);
         }
     }
 }

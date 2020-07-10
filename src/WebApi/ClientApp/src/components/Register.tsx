@@ -1,9 +1,9 @@
-import React from "react";
-import Styles from "../Styles";
+import * as React from "react";
+import { connect } from "react-redux";
 import { Form, Field } from "react-final-form";
 import TextInput from "../components/TextInput";
 import NumberInput from "../components/NumberInput";
-import {connect} from "react-redux";
+import Styles from "../Styles"
 
 interface Values {
     firstName: string;
@@ -12,16 +12,17 @@ interface Values {
 }
 
 const onSubmit = async (values: Values) => {
-    const formData  = new FormData();
+    const formData = new FormData();
 
-    formData.append('firstName', values.firstName);
-    formData.append('ssn', values.ssn);
-    formData.append('initialAmount', values.initialAmount.toString());
+    formData.append("firstName", values.firstName);
+    formData.append("ssn", values.ssn);
+    formData.append("initialAmount", values.initialAmount.toString());
 
-    await fetch('api/v1/Customers', {
-        method: 'POST',
-        body: formData
-    });
+    await fetch("api/v1/Customers",
+        {
+            method: "POST",
+            body: formData
+        });
 };
 
 const Register: React.FC = () => (
@@ -29,7 +30,7 @@ const Register: React.FC = () => (
         <h1>Register an Account</h1>
         <Form
             onSubmit={onSubmit}
-            initialValues={{ firstName: '', ssn: '', initialAmount: 0}}
+            initialValues={{ firstName: "", ssn: "", initialAmount: 0 }}
             render={({ handleSubmit, form, submitting, pristine, values }) => (
                 <form onSubmit={handleSubmit}>
                     <div>
@@ -62,8 +63,7 @@ const Register: React.FC = () => (
                         </button>
                     </div>
                 </form>
-            )}
-        />
+            )}/>
     </Styles>
 );
 
