@@ -28,5 +28,9 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
-    "eslint.validate": ["typescript", "typescriptreact"]
+    "eslint.validate": [
+        "typescript",
+        "typescriptreact"
+    ],
+    "python.pythonPath": "C:\\Users\\TanHoang\\AppData\\Local\\Programs\\Python\\Python38-32\\python.exe"
 }
