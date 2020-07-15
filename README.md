@@ -33,7 +33,7 @@ We also support the React client:
 pushd src/WebApi/ClientApp
 npm install
 popd
-dotnet run --project src/WebApi/WebApi.csproj --environment="Development"
+dotnet run --project src/WebApi/WebApi.csproj --launch-profile Development
 ```
 
 Then navigate to:
@@ -193,6 +193,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://codepen.io/sergiobroccardi/posts/published/"><img src="https://avatars1.githubusercontent.com/u/25184212?v=4" width="100px;" alt=""/><br /><sub><b>Sergio Broccardi</b></sub></a><br /><a href="https://github.com/ivanpaulovich/clean-architecture-manga/commits?author=sbroccardi" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/cuno92"><img src="https://avatars0.githubusercontent.com/u/58431215?v=4" width="100px;" alt=""/><br /><sub><b>cuno92</b></sub></a><br /><a href="https://github.com/ivanpaulovich/clean-architecture-manga/commits?author=cuno92" title="Code">💻</a></td>
     <td align="center"><a href="http://vmamore.com.br"><img src="https://avatars0.githubusercontent.com/u/26505439?v=4" width="100px;" alt=""/><br /><sub><b>Vinícius Mamoré</b></sub></a><br /><a href="https://github.com/ivanpaulovich/clean-architecture-manga/commits?author=vmamore" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/dyavolick"><img src="https://avatars1.githubusercontent.com/u/3098528?v=4" width="100px;" alt=""/><br /><sub><b>dyavolick</b></sub></a><br /><a href="https://github.com/ivanpaulovich/clean-architecture-manga/commits?author=dyavolick" title="Code">💻</a></td>
   </tr>
 </table>
 

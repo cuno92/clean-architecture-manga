@@ -17,12 +17,14 @@ namespace Application.Boundaries.Deposit
         /// </summary>
         /// <param name="accountId">AccountId.</param>
         /// <param name="amount">Positive amount to deposit.</param>
+        /// <param name="currency">Currency from amount.</param>
         public DepositInput(
             Guid accountId,
-            decimal amount)
+            decimal amount,
+            string? currency = default)
         {
             this.AccountId = new AccountId(accountId);
-            this.Amount = new PositiveMoney(amount);
+            this.Amount = new PositiveMoney(amount, currency);
         }
 
         /// <summary>
@@ -34,5 +36,10 @@ namespace Application.Boundaries.Deposit
         ///     Gets the Amount.
         /// </summary>
         public PositiveMoney Amount { get; }
+
+        /// <summary>
+        ///     Gets the Currency.
+        /// </summary>
+        public Currency Currency { get; }
     }
 }

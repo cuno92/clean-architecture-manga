@@ -63,12 +63,13 @@ namespace ComponentTests.V1
             FormUrlEncodedContent content = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("accountId", account),
-                new KeyValuePair<string, string>("amount", amount.ToString(CultureInfo.InvariantCulture))
+                new KeyValuePair<string, string>("amount", amount.ToString(CultureInfo.InvariantCulture)),
+                new KeyValuePair<string, string>("currency", string.Empty)
             });
 
             HttpResponseMessage response = await client.PatchAsync("api/v1/Accounts/Deposit", content)
                 .ConfigureAwait(false);
-            await response.Content
+            var result = await response.Content
                 .ReadAsStringAsync()
                 .ConfigureAwait(false);
 
@@ -87,7 +88,7 @@ namespace ComponentTests.V1
 
             HttpResponseMessage response = await client.PatchAsync("api/v1/Accounts/Withdraw", content)
                 .ConfigureAwait(false);
-            await response.Content
+            var responseBody = await response.Content
                 .ReadAsStringAsync()
                 .ConfigureAwait(false);
 
@@ -105,23 +106,23 @@ namespace ComponentTests.V1
         [Fact]
         public async Task Register_Deposit_Withdraw_Close()
         {
-            (_, string item2) = await this.Register(100)
+            (_, string item2) = await this.Register(500)
                 .ConfigureAwait(false);
             await this.GetCustomer()
                 .ConfigureAwait(false);
             await this.GetAccount(item2)
                 .ConfigureAwait(false);
-            await this.Withdraw(item2, 100)
+            await this.Withdraw(item2, 300)
                 .ConfigureAwait(false);
             await this.GetCustomer()
                 .ConfigureAwait(false);
             await this.Deposit(item2, 500)
                 .ConfigureAwait(false);
-            await this.Deposit(item2, 400)
+            await this.Deposit(item2, 300)
                 .ConfigureAwait(false);
             await this.GetCustomer()
                 .ConfigureAwait(false);
-            await this.Withdraw(item2, 400)
+            await this.Withdraw(item2, 500)
                 .ConfigureAwait(false);
             await this.Withdraw(item2, 500)
                 .ConfigureAwait(false);
